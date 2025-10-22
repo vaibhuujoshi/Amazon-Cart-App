@@ -2,7 +2,7 @@
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { wishItem } from "../store/wishItemState";
-import { cartCounter, cartItem } from "../store/cartItemState";
+import { cartItem } from "../store/cartItemState";
 import { useState } from "react";
 
 // Styles for the main page layout
@@ -272,11 +272,9 @@ export function WishListComponent() {
 // Your ShoppingItemComponent, now with styles
 function WishItemComponent({ imageUrl, title, price }) {
     const [itemAdded, setItemAdded] = useState(false)
-    const setCartCount = useSetRecoilState(cartCounter)
     const setCartItems = useSetRecoilState(cartItem)
 
-    function increaseCartCount() {
-        setCartCount(c => c + 1)
+    function increaseCartCount() {  
         setItemAdded(true)
         setCartItems(item => [...item, {
             imageUrl: imageUrl,
@@ -286,7 +284,7 @@ function WishItemComponent({ imageUrl, title, price }) {
         console.log(title)
     }
     function takeSomewhere() {
-        setCartCount(c => c = c)
+        console.log("Item Added")
     }
 
     return (
