@@ -3,6 +3,7 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartItem } from "../store/cartItemState";
 import { useState } from "react";
+import { isModalOpen } from "../store/modal";
 
 // Styles for the overall page layout
 const pageStyles = {
@@ -180,41 +181,94 @@ const summaryStyles = {
     },
 };
 
+// --- NEW STYLES for the Modal ---
+const modalStyles = {
+    // The dark background overlay
+    backdrop: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+    },
+    // The white modal box
+    modal: {
+        backgroundColor: '#FFFFFF',
+        padding: '30px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        textAlign: 'center',
+        width: '400px',
+    },
+    icon: {
+        width: '60px',
+        height: '60px',
+        marginBottom: '15px',
+    },
+    title: {
+        fontSize: '24px',
+        fontWeight: 'bold',
+        margin: '0 0 10px 0',
+    },
+    message: {
+        fontSize: '16px',
+        color: '#555',
+        margin: '0 0 20px 0',
+    },
+    total: {
+        fontSize: '16px',
+        margin: '20px 0',
+    },
+    button: {
+        backgroundColor: '#2563EB', // Blue color from image
+        color: 'white',
+        border: 'none',
+        borderRadius: '6px',
+        padding: '12px 0',
+        width: '100%',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        cursor: 'pointer',
+    },
+};
+
 // --- COMPONENT ---
 
 export function AmazonCartComponent() {
-    // Data from the image to make the component match
-    const items = {
-        title: 'The Art of Impossible: A Peak Performance Primer',
-        price: 369.0,
-        inStock: true,
-        imageUrl: 'https://m.media-amazon.com/images/I/41+eK8zBw+L._SY445_SX342_.jpg',
-    };
-    const item2 = {
-        title:
-            'Safari Ray Voyage 53 Cms Small Cabin Polycarbonate (Pc) Hard Sided 4 Wheels 360 Degree Rotation Printed Luggage',
-        price: 2104.0,
-        inStock: true,
-        imageUrl: 'https://m.media-amazon.com/images/I/71w1B-6OBHL._SY879_.jpg',
-    };
 
-    const total = items.price + item2.price;
+    const modalOpen = useRecoilValue(isModalOpen)
+    const setIsModalOpen = useSetRecoilState(isModalOpen)
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     return (
-        <div style={pageStyles.background}>
-            <h1 style={cartStyles.title}>Shopping Cart</h1>
-            <div style={pageStyles.container}>
+        <>
+            <div style={pageStyles.background}>
+                <h1 style={cartStyles.title}>Shopping Cart</h1>
+                <div style={pageStyles.container}>
 
-                {/* Left Column: Cart Items */}
-                <div style={pageStyles.leftColumn}>
-                    <div style={cartStyles.box}>
-                        <CartItemElements />
+                    {/* Left Column: Cart Items */}
+                    <div style={pageStyles.leftColumn}>
+                        <div style={cartStyles.box}>
+                            <CartItemElements />
+                        </div>
                     </div>
+                    {/* Right Column: Order Summary */}
+                    <OrderComponent />
                 </div>
-                {/* Right Column: Order Summary */}
-                <OrderComponent />
             </div>
-        </div>
+            <PurchaseSuccessModal
+                isOpen={modalOpen}
+                onClose={handleCloseModal}
+            />
+        </>
     );
 }
 
@@ -275,6 +329,20 @@ function CartItemElements() {
 }
 
 function OrderComponent() {
+    // NEW: State to manage the modal's visibility
+    const setIsModalOpen = useSetRecoilState(isModalOpen)
+
+    // --- HANDLERS ---
+    // NEW: Function to open the modal
+    const handleProceedToBuy = () => {
+        setIsModalOpen(true);
+    };
+
+    // NEW: Function to close the modal
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
     const cartItems = useRecoilValue(cartItem)
 
     const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -298,9 +366,62 @@ function OrderComponent() {
                         <p>Order Total:</p>
                         <p>{totalPrice - totalPrice * 25 / 100}</p>
                     </div>
-                    <button style={summaryStyles.button}>Proceed to Buy</button>
+                    <button onClick={handleProceedToBuy} style={summaryStyles.button}>Proceed to Buy</button>
                 </div>
             </div>
         </>
     )
+}
+
+function PurchaseSuccessModal({ isOpen, onClose }) {
+    const cartItems = useRecoilValue(cartItem)
+
+    const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
+
+    if (totalPrice === 0) {
+        return null
+    }
+
+    // If not open, render nothing
+    if (!isOpen) {
+        return null;
+    }
+
+    return (
+        // The dark overlay
+        <div style={modalStyles.backdrop} onClick={onClose}>
+            {/* The white modal box */}
+            {/* We stop click propagation so clicking the box doesn't close it */}
+            <div style={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
+                {/* Green Checkmark SVG Icon */}
+                <svg
+                    style={modalStyles.icon}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <circle cx="12" cy="12" r="10" fill="#4CAF50"></circle>
+                    <path
+                        d="M9 12.5L11 14.5L15 10.5"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    ></path>
+                </svg>
+
+                <h1 style={modalStyles.title}>Purchase Successful!</h1>
+                <p style={modalStyles.message}>
+                    Thank you for your purchase. Your order has been successfully
+                    processed.
+                </p>
+                <p style={modalStyles.total}>
+                    <strong>Total Amount: ${totalPrice - totalPrice * 25 / 100}</strong>
+                </p>
+                <button style={modalStyles.button} onClick={onClose}>
+                    Close
+                </button>
+            </div>
+        </div>
+    );
 }
