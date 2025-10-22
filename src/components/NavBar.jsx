@@ -1,6 +1,6 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { cartCounter } from "../store/cartItemState";
 import { Link } from "react-router-dom";
+import { cartItem } from "../store/cartItemState";
 
 // Styles are grouped together for better organization and readability
 const styles = {
@@ -63,12 +63,12 @@ const styles = {
 
 // Reusable NavBar component
 export function NavBarComponent() {
-    const cartCount = useRecoilValue(cartCounter)
+    const cartItems = useRecoilValue(cartItem)
 
     return (
         <div style={styles.navBar}>
             {/* Left side: Logo */}
-            
+
             <Link to="/">
                 <h1 style={styles.logo}>amazon.in</h1>
             </Link>
@@ -80,7 +80,7 @@ export function NavBarComponent() {
                     <Link to="/cart">
                         <img width={"35px"} src="src/assets/cart3.svg" alt="cart" />
                     </Link>
-                    <div style={styles.cartCount}>{cartCount}</div>
+                    <div style={styles.cartCount}>{cartItems.length}</div>
                 </div>
             </div>
         </div>
