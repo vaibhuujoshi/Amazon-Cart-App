@@ -1,7 +1,8 @@
 // --- STYLES ---
 
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartItem } from "../store/cartItemState";
+import { useState } from "react";
 
 // Styles for the overall page layout
 const pageStyles = {
@@ -123,6 +124,8 @@ const itemStyles = {
         borderLeft: '1px solid #DDD',
         paddingLeft: '10px',
         marginLeft: '2px', // Small space before the border
+        border: "none",
+        background: "none",
     },
     price: {
         fontSize: '20px',
@@ -157,8 +160,8 @@ const summaryStyles = {
         display: 'flex',
         justifyContent: 'space-between',
         fontSize: '18px',
-        fontWeight: 'bold',
-        color: '#B12704', // Amazon's red price color
+        fontWeight: '650',
+        color: '#000000ff', // Amazon's red price color
         borderTop: '1px solid #DDD',
         paddingTop: '10px',
         marginTop: '10px',
@@ -209,27 +212,23 @@ export function AmazonCartComponent() {
                     </div>
                 </div>
                 {/* Right Column: Order Summary */}
-                <div style={pageStyles.rightColumn}>
-                    <div style={summaryStyles.box}>
-                        <h2 style={summaryStyles.title}>Order Summary</h2>
-                        <div style={summaryStyles.line}>
-                            <p>Items (2):</p>
-                            <p>₹{total.toFixed(2)}</p>
-                        </div>
-                        {/* You could add more lines here for shipping, taxes, etc. */}
-                        <div style={summaryStyles.totalLine}>
-                            <p>Order Total:</p>
-                            <p>₹{total.toFixed(2)}</p>
-                        </div>
-                        <button style={summaryStyles.button}>Proceed to Buy</button>
-                    </div>
-                </div>
+                <OrderComponent />
             </div>
         </div>
     );
 }
 
 function CartItemComponent({ imageUrl, title, price }) {
+
+    const setCartItems = useSetRecoilState(cartItem)
+    const cartItems = useRecoilValue(cartItem)
+
+    const [itemCount, setItemCount] = useState(1)
+
+    function deleteItem() {
+        const updatedCartItems = cartItems.filter(item => item.title !== title);
+        setCartItems(updatedCartItems)
+    }
 
     return (
         <>
@@ -246,11 +245,11 @@ function CartItemComponent({ imageUrl, title, price }) {
                     <p style={itemStyles.stock}>In stock</p>
                     <div style={itemStyles.controls}>
                         <div style={itemStyles.quantityBox}>
-                            <button style={itemStyles.quantityButton}>-</button>
-                            <span style={itemStyles.quantityDisplay}>1</span>
-                            <button style={itemStyles.quantityButton}>+</button>
+                            <button onClick={() => { setItemCount(c => c - 1) }} style={itemStyles.quantityButton}>-</button>
+                            <span style={itemStyles.quantityDisplay}>{itemCount}</span>
+                            <button onClick={() => { setItemCount(c => c + 1) }} style={itemStyles.quantityButton}>+</button>
                         </div>
-                        <span style={itemStyles.deleteLink}>Delete</span>
+                        <button onClick={deleteItem} style={itemStyles.deleteLink}>Delete</button>
                     </div>
                 </div>
                 <p style={itemStyles.price}>${price}</p>
@@ -271,6 +270,37 @@ function CartItemElements() {
     return (
         <>
             {cartItemSingleElement}
+        </>
+    )
+}
+
+function OrderComponent() {
+    const cartItems = useRecoilValue(cartItem)
+
+    const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
+
+    return (
+        <>
+            <div style={pageStyles.rightColumn}>
+                <div style={summaryStyles.box}>
+                    <h2 style={summaryStyles.title}>Order Summary</h2>
+                    <div style={summaryStyles.line}>
+                        <p>Items ({cartItems.length}):</p>
+                        <p>{totalPrice}</p>
+                    </div>
+                    <div style={summaryStyles.line}>
+                        <p>Discount:</p>
+                        <p>25%</p>
+                    </div>
+
+                    {/* You could add more lines here for shipping, taxes, etc. */}
+                    <div style={summaryStyles.totalLine}>
+                        <p>Order Total:</p>
+                        <p>{totalPrice - totalPrice * 25 / 100}</p>
+                    </div>
+                    <button style={summaryStyles.button}>Proceed to Buy</button>
+                </div>
+            </div>
         </>
     )
 }
