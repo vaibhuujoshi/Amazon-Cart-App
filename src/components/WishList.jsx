@@ -278,11 +278,11 @@ function WishItemComponent({ imageUrl, title, price }) {
     function increaseCartCount() {
         setCartCount(c => c + 1)
         setItemAdded(true)
-        setCartItems({
+        setCartItems(item => [...item, {
             imageUrl: item.imageUrl,
             title: item.title,
             price: item.price
-        })
+        }])
     }
     function takeSomewhere() {
         setCartCount(c => c = c)
