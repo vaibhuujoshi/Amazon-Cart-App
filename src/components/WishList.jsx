@@ -236,18 +236,18 @@ export function WishListComponent() {
                     <div style={headerStyles.right}>
                         <a href="#" style={headerStyles.shareLink}>
                             {/* Using a placeholder as assets aren't available */}
-                            <img width={"29px"} src="src/assets/share.svg" alt="cart" />
+                            <img width={"29px"} src="https://cdn-icons-png.flaticon.com/512/9069/9069013.png" alt="cart" />
                             <span>Send list to others</span>
                         </a>
-                        <img width={"35px"} src="src/assets/more.svg" alt="cart" />
+                        <img width={"35px"} src="https://static.thenounproject.com/png/683450-200.png" alt="cart" />
                     </div>
                 </div>
 
                 {/* Toolbar */}
                 <div style={toolbarStyles.container}>
                     <div style={toolbarStyles.left}>
-                        <img width={"35px"} src="src/assets/grid.svg" alt="cart" />
-                        <img width={"35px"} src="src/assets/list.svg" alt="cart" />
+                        <img width={"35px"} src="https://cdn3.iconfinder.com/data/icons/faticons/32/grid-2-01-512.png" alt="cart" />
+                        <img width={"35px"} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5lyEhaYtZ2y0uHH21I6FlAWu3vw97JVifDVEQ-YAPClknROUzT74i8tL4SgIZKmOLlrI&usqp=CAU\" alt="cart" />
                     </div>
                     <div style={toolbarStyles.right}>
                         <input
