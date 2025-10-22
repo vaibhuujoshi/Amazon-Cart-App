@@ -1,10 +1,9 @@
-// --- STYLES ---
-
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartItem } from "../store/cartItemState";
 import { useState } from "react";
-import { isModalOpen } from "../store/modal";
+import { isModalOpen } from "../store/PurchaseModal";
 
+// --- STYLES ---
 // Styles for the overall page layout
 const pageStyles = {
     background: {
