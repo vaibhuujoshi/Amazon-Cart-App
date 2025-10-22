@@ -5,13 +5,6 @@ import { WishListComponent } from './components/WishList'
 import { RecoilRoot } from 'recoil'
 import { AmazonCartComponent } from './components/AmazonCart'
 import { BrowserRouter, Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-defineConfig({
-  plugins: [react()],
-  base: '/Amazon-Cart-App/'  // <--- important for GitHub Pages
-})
 
 function App() {
 
