@@ -5,7 +5,7 @@ export const cartCounter = atom({
     default: 0
 })
 
-export const cartItems = atom({
+export const cartItem = atom({
     key: "cartItems",
     default: []
 })
