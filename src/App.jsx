@@ -21,12 +21,11 @@ function App() {
 function AmazonComponent() {
   return(
     <>
-    <BrowserRouter>
+    <BrowserRouter basename="/Amazon-Cart-App">
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route path='/' element={<WishListComponent />}></Route>
+            <Route index element={<WishListComponent />}></Route>
             <Route path='/cart' element={<AmazonCartComponent />}></Route>
-            
           </Route>
           <Route path='*' element={<ErrorPage />}></Route>
         </Routes>
