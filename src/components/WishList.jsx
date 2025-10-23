@@ -4,6 +4,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { wishItem } from "../store/wishItemState";
 import { cartItem } from "../store/cartItemState";
 import { useState } from "react";
+import { AddProductModal } from "./AddProductModal";
 
 // Styles for the main page layout
 const pageStyles = {
@@ -209,20 +210,35 @@ const itemStyles = {
 
 // --- COMPONENTS ---
 
-// Your WishListComponent, now with styles applied
 export function WishListComponent() {
+    const setWishItems = useSetRecoilState(wishItem);
+
+    // State to control the modal's visibility
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // This function will be passed to the modal
+    const handleAddProduct = (newProduct) => {
+        setWishItems((oldWishList) => [
+            ...oldWishList,
+            {
+                imageUrl: newProduct.imageUrl,
+                title: newProduct.title,
+                price: newProduct.price,
+            },
+        ]);
+    };
 
     return (
         <div style={pageStyles.container}>
             {/* Sidebar (Left Column) */}
             <div style={pageStyles.sidebar}>
-                <div style={{ background: "#eaeaeaff", width: "13vw", textAlign: "center", padding: "8px" }}>
+                {/* Your sidebar content from the screenshot */}
+                <div style={{ background: "#F7F7F7", width: "100%", padding: "8px", border: "1px solid #DDD", borderRadius: "4px" }}>
                     <h1 style={sidebarStyles.title}>Your Wish List</h1>
                     <a href="#" style={sidebarStyles.link}>
                         Default List
                     </a>
                 </div>
-
             </div>
 
             {/* Main Content (Right Column) */}
@@ -235,19 +251,32 @@ export function WishListComponent() {
                     </div>
                     <div style={headerStyles.right}>
                         <a href="#" style={headerStyles.shareLink}>
-                            {/* Using a placeholder as assets aren't available */}
-                            <img width={"29px"} src="https://cdn-icons-png.flaticon.com/512/9069/9069013.png" alt="cart" />
+                            <img width={"24px"} src="https://cdn-icons-png.flaticon.com/512/9069/9069013.png" alt="share" />
                             <span>Send list to others</span>
                         </a>
-                        <img width={"35px"} src="https://static.thenounproject.com/png/683450-200.png" alt="cart" />
+                        <img style={{ cursor: "pointer" }} width={"28px"} src="https://static.thenounproject.com/png/683450-200.png" alt="more" />
                     </div>
                 </div>
 
                 {/* Toolbar */}
                 <div style={toolbarStyles.container}>
                     <div style={toolbarStyles.left}>
-                        <img width={"35px"} src="https://cdn3.iconfinder.com/data/icons/faticons/32/grid-2-01-512.png" alt="cart" />
-                        <img width={"35px"} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5lyEhaYtZ2y0uHH21I6FlAWu3vw97JVifDVEQ-YAPClknROUzT74i8tL4SgIZKmOLlrI&usqp=CAU\" alt="cart" />
+                        <img style={{ cursor: "pointer" }} width={"35px"} src="https://cdn3.iconfinder.com/data/icons/faticons/32/grid-2-01-512.png" alt="grid" />
+                        {/* Updated onClick to open the modal */}
+                        <div
+                            onClick={() => setIsModalOpen(true)}
+                            style={{ display: 'flex', cursor: 'pointer', alignItems: 'center' }}
+                        >
+                            <img
+                                style={{ cursor: 'pointer' }}
+                                width={'45px'}
+                                src="https://cdn0.iconfinder.com/data/icons/circles-2/100/sign-square-plus-512.png"
+                                alt="add"
+                            />
+                            <p style={{ fontSize: '14px', margin: '0 0 0 5px' }}>
+                                Add Products
+                            </p>
+                        </div>
                     </div>
                     <div style={toolbarStyles.right}>
                         <input
@@ -261,10 +290,16 @@ export function WishListComponent() {
 
                 {/* Item Grid */}
                 <div style={gridStyles.container}>
-                    {/* Using the data from your original code */}
                     <WishItemElements />
                 </div>
             </div>
+
+            {/* Render the modal here */}
+            <AddProductModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onAddProduct={handleAddProduct}
+            />
         </div>
     );
 }
@@ -274,7 +309,7 @@ function WishItemComponent({ imageUrl, title, price }) {
     const [itemAdded, setItemAdded] = useState(false)
     const setCartItems = useSetRecoilState(cartItem)
 
-    function increaseCartCount() {  
+    function increaseCartCount() {
         setItemAdded(true)
         setCartItems(item => [...item, {
             imageUrl: imageUrl,
