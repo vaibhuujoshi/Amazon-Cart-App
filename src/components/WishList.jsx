@@ -15,14 +15,14 @@ const pageStyles = {
         minHeight: '100vh',
     },
     sidebar: {
-        width: '20%',
+        width: '15vw',
         minWidth: '200px',
         padding: '20px',
         backgroundColor: '#FFFFFF',
         borderRight: '1Spx solid #DDD',
     },
     mainContent: {
-        width: '80%',
+        width: '85vw',
         padding: '20px 30px',
     },
 };
@@ -216,7 +216,7 @@ export function WishListComponent() {
         <div style={pageStyles.container}>
             {/* Sidebar (Left Column) */}
             <div style={pageStyles.sidebar}>
-                <div style={{ background: "#eaeaeaff", width: "17vw", textAlign: "center", padding: "8px" }}>
+                <div style={{ background: "#eaeaeaff", width: "13vw", textAlign: "center", padding: "8px" }}>
                     <h1 style={sidebarStyles.title}>Your Wish List</h1>
                     <a href="#" style={sidebarStyles.link}>
                         Default List
