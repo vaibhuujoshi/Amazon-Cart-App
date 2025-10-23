@@ -243,8 +243,11 @@ export function AmazonCartComponent() {
     const modalOpen = useRecoilValue(isModalOpen)
     const setIsModalOpen = useSetRecoilState(isModalOpen)
 
+    const setCartItems = useSetRecoilState(cartItem)
+
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setCartItems(item => [])
     };
 
     return (
