@@ -232,8 +232,8 @@ export function WishListComponent() {
         <div style={pageStyles.container}>
             {/* Sidebar (Left Column) */}
             <div style={pageStyles.sidebar}>
-                {/* Your sidebar content from the screenshot */}
-                <div style={{ background: "#F7F7F7", width: "100%", padding: "8px", border: "1px solid #DDD", borderRadius: "4px" }}>
+                {/* sidebar content  */}
+                <div style={{ background: "#F7F7F7", padding: "8px", border: "1px solid #DDD", borderRadius: "4px" }}>
                     <h1 style={sidebarStyles.title}>Your Wish List</h1>
                     <a href="#" style={sidebarStyles.link}>
                         Default List
