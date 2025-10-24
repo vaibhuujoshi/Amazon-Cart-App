@@ -14,7 +14,6 @@ const styles = {
         fontFamily: 'Arial, sans-serif',
         paddingTop: '21px',
         paddingBottom: "18px",
-        width: "100vw"
     },
     logo: {
         fontSize: '24px',
