@@ -360,7 +360,7 @@ function OrderComponent() {
                     </div>
                     <div style={summaryStyles.line}>
                         <p>Discount:</p>
-                        <p>25%</p>
+                        <p style={{color: "rgba(243, 0, 0, 1)"}}>25%</p>
                     </div>
 
                     {/* You could add more lines here for shipping, taxes, etc. */}
