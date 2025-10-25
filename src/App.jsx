@@ -10,9 +10,6 @@ function App() {
 
   return (
     <RecoilRoot>
-      {/* <NavBarComponent />
-      <WishListComponent />
-      <AmazonCartComponent /> */}
       <AmazonComponent />
     </RecoilRoot>
   )
