@@ -78,7 +78,7 @@ export function NavBarComponent() {
                 <div style={styles.cartContainer}>
                     {/* Embedded SVG for the cart icon */}
                     <Link to="/cart">
-                        <img width={"35px"} src="https://www.citypng.com/public/uploads/preview/hd-shopping-cart-white-logo-icon-transparent-png-701751694973936amdcratijm.png" alt="cart" />
+                        <img width={"35px"} src="https://cdn-icons-png.flaticon.com/256/4226/4226738.png" alt="cart" />
                     </Link>
                     <div style={styles.cartCount}>{cartItems.length}</div>
                 </div>
