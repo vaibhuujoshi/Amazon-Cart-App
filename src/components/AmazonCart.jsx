@@ -396,7 +396,7 @@ function PurchaseSuccessModal({ isOpen, onClose }) {
             {/* We stop click propagation so clicking the box doesn't close it */}
             <div style={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
                 {/* Green Checkmark SVG Icon */}
-                <svg
+                {/* <svg
                     style={modalStyles.icon}
                     viewBox="0 0 24 24"
                     fill="none"
@@ -410,7 +410,9 @@ function PurchaseSuccessModal({ isOpen, onClose }) {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                     ></path>
-                </svg>
+                </svg> */}
+                <br />
+                <img width={"185px"} src="./qr.jpg" alt="qr" />
 
                 <h1 style={modalStyles.title}>Purchase Successful!</h1>
                 <p style={modalStyles.message}>
