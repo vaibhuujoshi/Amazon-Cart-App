@@ -1,10 +1,9 @@
-// --- STYLES ---
-
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { wishItem } from "../store/wishItemState";
 import { cartItem } from "../store/cartItemState";
 import { useState } from "react";
 import { AddProductModal } from "./AddProductModal";
+import { searchItem } from "../store/searchItemState";
 
 // Styles for the main page layout
 const pageStyles = {
@@ -213,6 +212,8 @@ const itemStyles = {
 export function WishListComponent() {
     const setWishItems = useSetRecoilState(wishItem);
 
+    const [searchItems, setSearchItems] = useRecoilState(searchItem)
+
     // State to control the modal's visibility
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -281,7 +282,9 @@ export function WishListComponent() {
                     <div style={toolbarStyles.right}>
                         <input
                             type="text"
-                            placeholder="Search this list"
+                            placeholder="Search items"
+                            value={searchItems}
+                            onChange={(e) => setSearchItems(e.target.value)}
                             style={toolbarStyles.searchInput}
                         />
                         <button style={toolbarStyles.filterButton}>Filter & Sort</button>
@@ -337,8 +340,15 @@ function WishItemComponent({ imageUrl, title, price }) {
 
 function WishItemElements() {
     const wishItems = useRecoilValue(wishItem)
+    
+    const [searchItems, setSearchItems] = useRecoilState(searchItem)
 
-    const WishItemSingleElement = wishItems.map(item => <WishItemComponent
+    //filtered items in wishlist
+    const filteredItem = wishItems.filter((item) =>
+        item.title.toLowerCase().includes(searchItems.toLowerCase())
+    );
+
+    const WishItemSingleElement = filteredItem.map((item) => <WishItemComponent
         imageUrl={item.imageUrl}
         title={item.title}
         price={item.price}
