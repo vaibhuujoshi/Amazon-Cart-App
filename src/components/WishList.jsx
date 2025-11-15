@@ -1,9 +1,10 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { wishItem } from "../store/wishItemState";
 import { cartItem } from "../store/cartItemState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddProductModal } from "./AddProductModal";
 import { searchItem } from "../store/searchItemState";
+import { useDebounce } from "./useDebounce";
 
 // Styles for the main page layout
 const pageStyles = {
@@ -342,10 +343,11 @@ function WishItemElements() {
     const wishItems = useRecoilValue(wishItem)
     
     const [searchItems, setSearchItems] = useRecoilState(searchItem)
+    const searchItemdebouncedVal = useDebounce(searchItems, 200)
 
     //filtered items in wishlist
     const filteredItem = wishItems.filter((item) =>
-        item.title.toLowerCase().includes(searchItems.toLowerCase())
+        item.title.toLowerCase().includes(searchItemdebouncedVal.toLowerCase())
     );
 
     const WishItemSingleElement = filteredItem.map((item) => <WishItemComponent
