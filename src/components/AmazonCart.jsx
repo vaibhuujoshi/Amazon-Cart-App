@@ -412,7 +412,7 @@ function PurchaseSuccessModal({ isOpen, onClose }) {
                     ></path>
                 </svg> */}
                 <br />
-                <img width={"185px"} src="./qr.jpg" alt="qr" />
+                <img width={"185px"} src="./qr2.jpg" alt="qr" />
 
                 <h1 style={modalStyles.title}>Purchase Successful!</h1>
                 <p style={modalStyles.message}>
